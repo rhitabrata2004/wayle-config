@@ -1,0 +1,126 @@
+// Custom Wayle styles. Anything here overrides the built-in styling.
+// Use @import "name" to bring in _name.scss from this folder.
+
+// ---------- bar-wide: every bar-button gets a smooth, springy hover/press ----------
+// (menubutton.bar-button is the shared base for battery, bluetooth, network,
+// volume, and every other icon module, so this animates the whole bar at once)
+menubutton.bar-button > button.toggle {
+    transition:
+        filter var(--duration-fast) ease,
+        box-shadow var(--duration-fast) ease;
+}
+
+menubutton.bar-button:hover > button.toggle {
+    box-shadow: 0 0 10px 1px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+menubutton.bar-button:checked > button.toggle {
+    box-shadow: 0 0 6px 0px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+// ---------- workspaces: active pill gets a soft breathing glow ----------
+@keyframes workspace-breathe {
+    0% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--ws-active-color) 0%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 8px 1px color-mix(in srgb, var(--ws-active-color) 55%, transparent);
+    }
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--ws-active-color) 0%, transparent);
+    }
+}
+
+.workspace {
+    transition:
+        background-color var(--duration-fast),
+        border-color var(--duration-fast),
+        box-shadow var(--duration-normal);
+}
+
+.workspace.active {
+    animation: workspace-breathe 2.4s ease-in-out infinite;
+}
+
+// ---------- the bar itself: a faint ambient pulse ----------
+// GTK's box-shadow only accepts a single shadow (no comma-layering like web
+// CSS), so this can't be combined with --bar-shadow without clobbering it.
+// Animating background-color instead keeps the configured border/shadow intact.
+@keyframes bar-breathe {
+    0% {
+        background-color: color-mix(in srgb, var(--bar-bg) var(--bar-opacity), transparent);
+    }
+    50% {
+        background-color: color-mix(
+            in srgb,
+            color-mix(in srgb, var(--bar-bg) 88%, var(--accent)) var(--bar-opacity),
+            transparent
+        );
+    }
+    100% {
+        background-color: color-mix(in srgb, var(--bar-bg) var(--bar-opacity), transparent);
+    }
+}
+
+.bar {
+    animation: bar-breathe 6s ease-in-out infinite;
+}
+
+// ---------- battery: low/critical alert pulses ----------
+// (.battery.warning / .battery.critical are toggled from Rust in
+// shell/bar/modules/battery/mod.rs, mirroring the dashboard battery card)
+@keyframes battery-warning-pulse {
+    0% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 0%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 10px 1px color-mix(in srgb, var(--yellow) 55%, transparent);
+    }
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--yellow) 0%, transparent);
+    }
+}
+
+@keyframes battery-critical-pulse {
+    0% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--red) 0%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 14px 2px color-mix(in srgb, var(--red) 70%, transparent);
+    }
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--red) 0%, transparent);
+    }
+}
+
+.battery.warning menubutton.bar-button > button.toggle {
+    animation: battery-warning-pulse 2s ease-in-out infinite;
+}
+
+.battery.critical menubutton.bar-button > button.toggle {
+    animation: battery-critical-pulse 0.8s ease-in-out infinite;
+}
+
+// ---------- bluetooth: steady ring while connected + a flash the moment ----------
+// ---------- a connection lands (.bluetooth.connected, wired up in Rust) --------
+@keyframes bluetooth-connect-flash {
+    0% {
+        box-shadow: 0 0 0 0 color-mix(in srgb, var(--blue) 0%, transparent);
+    }
+    40% {
+        box-shadow: 0 0 14px 2px color-mix(in srgb, var(--blue) 65%, transparent);
+    }
+    100% {
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--blue) 35%, transparent);
+    }
+}
+
+.bluetooth.connected menubutton.bar-button > button.toggle {
+    // Explicit longhands (not the shorthand) so the ring set by the 100%
+    // keyframe sticks around after the one-shot flash finishes.
+    animation-name: bluetooth-connect-flash;
+    animation-duration: 600ms;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}

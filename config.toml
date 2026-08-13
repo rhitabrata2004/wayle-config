@@ -1,0 +1,30 @@
+# Wayle configuration file
+
+[[bar.layout]]
+monitor = "*"
+left = ["media"]
+center = ["clock", "cava"]
+right = ["battery", "bluetooth", "network", "microphone", "volume"]
+
+[[modules.custom]]
+id = "theme-switcher"
+command = "cat ~/.config/wayle/current-theme 2>/dev/null || echo catppuccin"
+interval-ms = 1000
+
+left-click = "$HOME/.local/bin/wayle-theme next"
+right-click = "$HOME/.local/bin/wayle-theme prev"
+
+icon-name = "ld-palette-symbolic"
+label-show = true
+format = "{{ output }}"
+
+[[bar.layout]]
+monitor = "*"
+
+right = [
+    "custom-theme-switcher",
+    "battery",
+    "network",
+    "volume",
+    "systray"
+]

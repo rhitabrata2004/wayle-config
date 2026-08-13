@@ -1,0 +1,8 @@
+# Runtime state, not config
+runtime.toml
+current-theme
+
+# Regenerated via `wayle config schema` / `wayle config default`
+schema.json
+config.toml.example
+themes/schema.json

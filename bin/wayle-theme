@@ -1,0 +1,53 @@
+#!/bin/bash
+
+THEME_DIR="$HOME/.config/wayle/themes"
+STATE="$HOME/.config/wayle/current-theme"
+
+themes=("$THEME_DIR"/*.toml)
+
+[ ${#themes[@]} -eq 0 ] && exit 1
+
+# Current theme index
+if [ -f "$STATE" ]; then
+    current=$(cat "$STATE")
+else
+    current=-1
+fi
+
+case "$1" in
+    next)
+        current=$((current + 1))
+        [ "$current" -ge "${#themes[@]}" ] && current=0
+        ;;
+    prev)
+        current=$((current - 1))
+        [ "$current" -lt 0 ] && current=$((${#themes[@]} - 1))
+        ;;
+    *)
+        current=0
+        ;;
+esac
+
+theme="${themes[$current]}"
+name=$(basename "$theme" .toml)
+
+echo "$current" > "$STATE"
+
+# Wayle has no "theme" field to select a preset by name -- when
+# theme-provider is "wayle" the colors come from styling.palette, a flat
+# table of hex values. Push each key from the theme file individually:
+# `wayle config set` on the whole styling.palette table as one JSON object
+# is silently ignored (confirmed via readback), but per-key dotted paths
+# like styling.palette.bg apply correctly.
+wayle config set styling.theme-provider '"wayle"' >/dev/null
+
+while IFS='=' read -r key value; do
+    key="${key// /}"
+    [ -z "$key" ] && continue
+    key="${key//_/-}"
+    value="$(echo "$value" | xargs)"
+    wayle config set "styling.palette.$key" "$value" >/dev/null
+done < <(grep -E '^[a-z_]+ *= *"#' "$theme")
+
+echo "$name"
+
