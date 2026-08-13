@@ -12,3 +12,23 @@ for a YouTube thumbnail fallback, [proposed upstream in PR #44](https://github.c
 - `bin/wayle-theme` — theme cycler bound to the `custom-theme-switcher` bar
   module's click actions. Tracked copy of `~/.local/bin/wayle-theme`; copy
   changes back manually (or symlink it) when editing.
+
+## Themes
+
+Left/right-click the theme switcher on the bar to cycle forward/back.
+Each `themes/*.toml` is a flat `bg` / `surface` / `elevated` / `fg` /
+`fg_muted` / `primary` / `red` / `yellow` / `green` / `blue` palette; adding
+a file adds it to the rotation, no config changes needed.
+
+- Catppuccin Mocha
+- Catppuccin Macchiato
+- Tokyo Night
+- Dracula
+- Nord
+- Gruvbox Dark
+- Everforest
+- One Dark
+- Rosé Pine
+- Kanagawa
+- Solarized Dark
+- Cyberpunk *(no single canonical spec — built as a cohesive neon-on-dark-purple palette)*
