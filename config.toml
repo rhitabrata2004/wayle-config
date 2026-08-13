@@ -4,7 +4,13 @@
 monitor = "*"
 left = ["media"]
 center = ["clock", "cava"]
-right = ["battery", "bluetooth", "network", "microphone", "volume"]
+right = [
+    "custom-theme-switcher",
+    "battery",
+    "network",
+    "volume",
+    "systray"
+]
 
 [[modules.custom]]
 id = "theme-switcher"
@@ -17,14 +23,3 @@ right-click = "$HOME/.local/bin/wayle-theme prev"
 icon-name = "ld-palette-symbolic"
 label-show = true
 format = "{{ output }}"
-
-[[bar.layout]]
-monitor = "*"
-
-right = [
-    "custom-theme-switcher",
-    "battery",
-    "network",
-    "volume",
-    "systray"
-]
