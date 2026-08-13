@@ -20,12 +20,14 @@ Each `themes/*.toml` is a flat `bg` / `surface` / `elevated` / `fg` /
 `fg_muted` / `primary` / `red` / `yellow` / `green` / `blue` palette; adding
 a file adds it to the rotation, no config changes needed.
 
-Each theme also has a matching wallpaper at `themes/wallpapers/<name>.jpg`
-(a subtle diagonal `bg` → `elevated` gradient with a soft `primary`-colored
-glow, generated from the theme's own palette) applied via `wayle wallpaper
-set` alongside the color switch. A theme with no matching wallpaper file
-just skips this step. Requires wayle's own `awww` wallpaper engine to own
-the wallpaper layer — see the note below.
+Each theme also gets a wallpaper applied alongside the color switch, via
+`wayle wallpaper set`. Rather than a generated per-theme image, the
+wallpaper is picked from `~/Pictures/Wallpapers` — the theme name is hashed
+(`cksum`) into an index over the sorted image list, so a given theme always
+maps to the same wallpaper across switches without a manual mapping. Add or
+remove images in that folder and the pairing shifts accordingly. Requires
+wayle's own `awww` wallpaper engine to own the wallpaper layer — see the
+note below.
 
 - Catppuccin Mocha
 - Catppuccin Macchiato
