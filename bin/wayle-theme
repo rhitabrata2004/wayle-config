@@ -1,6 +1,7 @@
 #!/bin/bash
 
 THEME_DIR="$HOME/.config/wayle/themes"
+WALLPAPER_DIR="$THEME_DIR/wallpapers"
 STATE="$HOME/.config/wayle/current-theme"
 
 themes=("$THEME_DIR"/*.toml)
@@ -48,6 +49,16 @@ while IFS='=' read -r key value; do
     value="$(echo "$value" | xargs)"
     wayle config set "styling.palette.$key" "$value" >/dev/null
 done < <(grep -E '^[a-z_]+ *= *"#' "$theme")
+
+# Matching wallpaper, if one was generated for this theme (jpg preferred,
+# falls back to png for any manually-added ones).
+for ext in jpg png; do
+    wallpaper="$WALLPAPER_DIR/$name.$ext"
+    if [ -f "$wallpaper" ]; then
+        wayle wallpaper set "$wallpaper" >/dev/null
+        break
+    fi
+done
 
 echo "$name"
 
