@@ -1,0 +1,13 @@
+bg = "#0d0221"
+surface = "#170a2e"
+elevated = "#241b3d"
+
+fg = "#e0e0ff"
+fg_muted = "#7a6ba0"
+
+primary = "#ff2079"
+
+red = "#ff3864"
+yellow = "#f9c80e"
+green = "#00ff9f"
+blue = "#00d9ff"
