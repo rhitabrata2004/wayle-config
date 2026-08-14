@@ -11,6 +11,11 @@ button-variant = "basic"
 button-bg-opacity = 0
 button-label-weight = "bold"
 button-label-size = 1.1
+# The shared group containers (center, status) default to their own
+# bg-elevated bubble too -- kill that so grouped modules sit flush on
+# the bar background instead of a second nested chip.
+button-group-background = "transparent"
+button-group-opacity = 0
 
 [[bar.layout]]
 monitor = "*"
