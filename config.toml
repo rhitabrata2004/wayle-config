@@ -2,8 +2,15 @@
 
 # Solid bar background instead of transparent, so modules sit inside one
 # continuous bar rather than floating as separate pills over the wallpaper.
+# button-variant "basic" + zero button-bg-opacity drops the per-module
+# bubble backgrounds; bold + slightly larger labels keep text legible
+# against the bar without them.
 [bar]
 bg = "bg-surface"
+button-variant = "basic"
+button-bg-opacity = 0
+button-label-weight = "bold"
+button-label-size = 1.1
 
 [[bar.layout]]
 monitor = "*"
