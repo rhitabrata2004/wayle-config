@@ -1,15 +1,25 @@
 # Wayle configuration file
 
+# Solid bar background instead of transparent, so modules sit inside one
+# continuous bar rather than floating as separate pills over the wallpaper.
+[bar]
+bg = "bg-surface"
+
 [[bar.layout]]
 monitor = "*"
 left = ["media"]
-center = ["clock", "cava"]
+# Grouped so clock+cava and the status icons each render as a single
+# container instead of a string of individually-spaced floating buttons.
+center = [{ name = "center", modules = ["clock", "cava"] }]
 right = [
-    "custom-theme-switcher",
-    "battery",
-    "network",
-    "volume",
-    "systray"
+    { name = "status", modules = [
+        "custom-theme-switcher",
+        "battery",
+        "bluetooth",
+        "network",
+        "volume",
+        "systray",
+    ] }
 ]
 
 [[modules.custom]]
