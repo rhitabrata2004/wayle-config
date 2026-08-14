@@ -7,6 +7,7 @@
 # against the bar without them.
 [bar]
 bg = "bg-surface"
+rounding = "none"
 button-variant = "basic"
 button-bg-opacity = 0
 button-label-weight = "bold"
