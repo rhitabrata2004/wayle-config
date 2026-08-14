@@ -1,7 +1,6 @@
 #!/bin/bash
 
 THEME_DIR="$HOME/.config/wayle/themes"
-WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
 STATE="$HOME/.config/wayle/current-theme"
 
 themes=("$THEME_DIR"/*.toml)
@@ -50,16 +49,14 @@ while IFS='=' read -r key value; do
     wayle config set "styling.palette.$key" "$value" >/dev/null
 done < <(grep -E '^[a-z_]+ *= *"#' "$theme")
 
-# Wallpaper: deterministically paired from ~/Pictures/Wallpapers rather than
-# a generated per-theme image, so each theme name always maps to the same
-# wallpaper (stable across switches) without needing a manual mapping.
-mapfile -t wallpapers < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \
-    \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) | sort)
+# Wallpaper: each theme has its own matching image in themes/wallpapers/,
+# named after the theme (e.g. nord.png, dracula.png). Look it up by name
+# instead of hash-picking from ~/Pictures/Wallpapers, so the wallpaper
+# actually corresponds to the palette that just got applied.
+wallpaper=$(find "$THEME_DIR/wallpapers" -maxdepth 1 -type f -iname "$name.*" | head -n1)
 
-if [ ${#wallpapers[@]} -gt 0 ]; then
-    hash=$(cksum <<< "$name" | cut -d' ' -f1)
-    idx=$((hash % ${#wallpapers[@]}))
-    wayle wallpaper set "${wallpapers[$idx]}" >/dev/null
+if [ -n "$wallpaper" ]; then
+    wayle wallpaper set "$wallpaper" >/dev/null
 fi
 
 echo "$name"
