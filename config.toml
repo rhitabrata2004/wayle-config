@@ -7,6 +7,8 @@
 # against the bar without them.
 [bar]
 bg = "bg-surface"
+# Matches kitty's background_opacity (0.6) for a consistent see-through look.
+background-opacity = 60
 rounding = "none"
 button-variant = "basic"
 button-bg-opacity = 0
@@ -20,12 +22,13 @@ button-group-opacity = 0
 
 [[bar.layout]]
 monitor = "*"
-left = ["media"]
+left = ["custom-applications", "media"]
 # Grouped so clock+cava and the status icons each render as a single
 # container instead of a string of individually-spaced floating buttons.
 center = [{ name = "center", modules = ["clock", "cava"] }]
 right = [
     { name = "status", modules = [
+        "custom-weather-auto",
         "custom-theme-switcher",
         "battery",
         "bluetooth",
@@ -34,6 +37,20 @@ right = [
         "systray",
     ] }
 ]
+
+[[modules.custom]]
+id = "weather-auto"
+command = "$HOME/.local/bin/wayle-weather-auto"
+interval-ms = 900000
+icon-name = "ld-cloud-symbolic"
+icon-map = { "clear" = "ld-sun-symbolic", "clear-night" = "ld-moon-symbolic", "partly" = "ld-cloud-sun-symbolic", "cloudy" = "ld-cloud-symbolic", "fog" = "ld-cloud-fog-symbolic", "drizzle" = "ld-cloud-drizzle-symbolic", "rain" = "ld-cloud-rain-symbolic", "snow" = "ld-cloud-snow-symbolic", "storm" = "ld-cloud-lightning-symbolic" }
+label-show = true
+
+[[modules.custom]]
+id = "applications"
+icon-name = "si-archlinux-symbolic"
+label-show = false
+left-click = "~/.config/hypr/scripts/toggle-kando.sh"
 
 [[modules.custom]]
 id = "theme-switcher"
