@@ -45,6 +45,18 @@ interval-ms = 900000
 icon-name = "ld-cloud-symbolic"
 icon-map = { "clear" = "ld-sun-symbolic", "clear-night" = "ld-moon-symbolic", "partly" = "ld-cloud-sun-symbolic", "cloudy" = "ld-cloud-symbolic", "fog" = "ld-cloud-fog-symbolic", "drizzle" = "ld-cloud-drizzle-symbolic", "rain" = "ld-cloud-rain-symbolic", "snow" = "ld-cloud-snow-symbolic", "storm" = "ld-cloud-lightning-symbolic" }
 label-show = true
+# Opens the built-in weather dropdown (forecast/hourly/stats) on click.
+# See [modules.weather] below for the location it shows.
+left-click = "dropdown:weather"
+
+# The weather-auto script above drives the bar label/icon itself, but the
+# "weather" dropdown it opens on click is wayle's built-in weather panel,
+# which pulls from this config section rather than the script. Location is
+# pinned to the same coordinates wayle-weather-auto auto-detected via IP
+# geolocation (see ~/.cache/wayle-weather-geo.json), so the dropdown matches
+# what the bar label shows instead of defaulting to San Francisco.
+[modules.weather]
+location = "12.9753,77.591"
 
 [[modules.custom]]
 id = "applications"
